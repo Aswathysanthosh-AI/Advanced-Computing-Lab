@@ -1,0 +1,5 @@
+In trial 1 with features sepal_length=3.7,sepal_width=4.9,petal_length=5.2,petal_width=3.3, the model predicted the class label(species) as 'virgnica'.
+In trial 2 with features sepal_length=2.5,sepal_width=3.8,petal_length=4.6,petal_width=5.2, the model predicted the class label(species) as 'virgnica'.
+The model predicts the output class with respect to the similarity between the training data and the testing data.
+In trail 1 and trail 2, the SVM model predicted the same class(species) as 'virginica'. It shows that the class label for both sets of trial 1 and trial 2 data is the same.
+Therefore we can say that with similar features of data sets, the model would classify them into same class.

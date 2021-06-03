@@ -1,0 +1,24 @@
+#1. TRAINING
+#LOAD DATA(EXCEL USING PANDAS)
+import pandas as pd
+iris=pd.read_csv("/content/heart.csv")
+x=iris[['trtbps', 'chol', 'thalachh', 'oldpeak']]
+y=iris['output']
+
+#SPLIT
+from sklearn.model_selection import train_test_split 
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.3 ,random_state=42)
+
+#ALGORITHM
+from sklearn.svm import SVC
+ML= SVC()
+
+#FIT DATA INTO MODEL
+ML= ML.fit(x_train,y_train)
+
+#2. TESTING FOR ACCURACY
+
+Result=ML.predict(x_test)
+from sklearn.metrics import accuracy_score
+score=accuracy_score(Result,y_test)
+print(score*100)

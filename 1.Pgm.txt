@@ -1,0 +1,19 @@
+#1. TRAINING
+#LOAD DATA(EXCEL USING PANDAS)
+import pandas as pd
+iris=pd.read_csv("/content/load_iris final.csv")
+x=iris[['sepal_length','sepal_width','petal_length','petal_width']]
+y=iris['species']
+
+#ALGORITHM
+from sklearn.svm import SVC
+ML=SVC()
+
+#FIT DATA INTO MODEL
+ML= ML.fit(x,y)
+
+#2.TESTING
+result1=ML.predict([[3.7, 4.9, 5.2, 3.3]])
+result2=ML.predict([[2.5, 3.8, 4.6, 5.2]])
+print("Result 1 is ", result1)
+print("Result 2 is ", result2)
