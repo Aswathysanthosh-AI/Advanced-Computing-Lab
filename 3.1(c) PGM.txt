@@ -1,0 +1,43 @@
+# TRAINING
+# Load Data from excel sheet
+import pandas as pd
+train=pd.read_csv("/content/train1.csv")
+x1=train[['Age', 'Flight Distance', 'Inflight wifi service', 'Ease of Online booking', 'Food and drink', 'Seat comfort', 'Leg room service', 'Cleanliness', 'Departure Delay in Minutes']]
+y1=train['satisfaction']
+
+test=pd.read_csv("/content/test2.csv")
+x2=test[['Age', 'Flight Distance', 'Inflight wifi service', 'Ease of Online booking', 'Food and drink', 'Seat comfort', 'Leg room service', 'Cleanliness', 'Departure Delay in Minutes']]
+y2=test['satisfaction']
+#Build the model
+from sklearn.naive_bayes import GaussianNB
+ML1=GaussianNB()
+from sklearn.naive_bayes import MultinomialNB
+ML2=MultinomialNB()
+from sklearn.naive_bayes import BernoulliNB
+ML3=BernoulliNB()
+
+#FIT DATA INTO ALGORITHM
+ML1=ML1.fit(x1,y1)
+ML2=ML2.fit(x1,y1)
+ML3=ML3.fit(x1,y1)
+
+# TESTING 
+Result1=ML1.predict(x2)
+Result2=ML2.predict(x2)
+Result3=ML3.predict(x2)
+print("GaussianNB is",Result1)
+print("MultinomialNB is",Result2)
+print(" BernoulliNB is",Result3)
+
+#Accuracy
+from sklearn.metrics import accuracy_score
+score1=accuracy_score(Result1,y2)
+score2=accuracy_score(Result2,y2)
+score3=accuracy_score(Result3,y2)
+print("Accuracy of Gaussian NB =",score1*100)
+print("Accuracy of Multinominal NB =",score2*100)
+print("Accuracy of Bernoulli NB =",score3*100)
+
+
+
+

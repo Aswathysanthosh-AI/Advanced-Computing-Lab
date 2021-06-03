@@ -1,0 +1,24 @@
+# TRAINING
+#LOAD DATA (EXCEL USING Pandas)
+import pandas as pd
+iris= pd.read_csv("/content/load_iris final.csv")
+x=iris[['sepal_length','sepal_width','petal_length','petal_width']]
+y=iris['species']
+# ALGORITHM/BUILD MODEL
+from sklearn.naive_bayes import GaussianNB
+ML1=GaussianNB()
+from sklearn.naive_bayes import MultinomialNB
+ML2=MultinomialNB()
+from sklearn.naive_bayes import BernoulliNB
+ML3=BernoulliNB()
+# FIT DATA INTO ALGORITHM
+ML1=ML1.fit(x,y)
+ML2=ML2.fit(x,y)
+ML3=ML3.fit(x,y)
+# TESTING
+Result1=ML1.predict([[3.5,3.5,3.5,3.5 ]])
+Result2=ML2.predict([[3.5,3.5,3.5,3.5 ]])
+Result3=ML3.predict([[3.5,3.5,3.5,3.5 ]])
+print("Result1,Guassian NB =",Result1)
+print("Result2,Multinominal NB =",Result2)
+print("Result3, Bernoulli NB =",Result3)
