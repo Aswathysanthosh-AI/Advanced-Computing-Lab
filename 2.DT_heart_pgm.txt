@@ -1,0 +1,27 @@
+#1. TRAINING
+#LOAD DATA(EXCEL USING PANDAS)
+import pandas as pd
+m=pd.read_csv("/content/heart.csv")
+x=m[['trtbps', 'chol', 'thalachh', 'oldpeak']]
+y=m['output']
+
+#Algorithm(DecisionTree)
+from sklearn.tree import DecisionTreeClassifier
+ML=DecisionTreeClassifier()
+
+#Fit data into model
+ML=ML.fit(x,y)
+
+#Testing
+Result=ML.predict([[145,233,150,1.8]])
+print("The class is",Result)
+
+#Construction of Tree
+import graphviz
+from sklearn import tree
+fn=['trtbps', 'chol', 'thalachh', 'oldpeak']
+cn=['0','1']
+p=tree.export_graphviz(ML,feature_names=fn,class_names=cn,filled=True,rounded=True,special_characters=True)
+graph=graphviz.Source(p)
+graph.render("graph3")
+graph

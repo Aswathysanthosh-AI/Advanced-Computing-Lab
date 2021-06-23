@@ -1,0 +1,28 @@
+#Training
+#Load Data(std data set load_iris)
+from sklearn.datasets import load_iris
+iris=load_iris()
+x=iris.data
+y=iris.target
+
+#Algorithm(DecisionTree)
+from sklearn.tree import DecisionTreeClassifier
+ML=DecisionTreeClassifier()
+
+#Fit data into model
+ML=ML.fit(x,y)
+
+#Testing
+Result=ML.predict([[10.1,9.2,6.8,2.7]])
+print("The class is",Result)
+
+#Construction of Tree
+
+import graphviz
+from sklearn import tree
+fn=iris.feature_names
+cn=iris.target_names
+z=tree.export_graphviz(ML,feature_names=fn,class_names=cn,filled=True,rounded=True,special_characters=True)
+graph=graphviz.Source(z)
+graph.render("graph1")
+graph
