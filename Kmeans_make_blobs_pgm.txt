@@ -1,0 +1,25 @@
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+from sklearn.datasets import make_blobs
+X,y = make_blobs(n_samples=200, centers=5, n_features=4, random_state=0)
+print (X.shape,y.shape)
+plt.figure(0)
+plt.grid(True)
+plt.scatter(X[:,0],X[:,1])
+plt.show()
+from sklearn.cluster import KMeans
+clf=KMeans(n_clusters=4,max_iter=4)
+Clf= clf.fit(X)
+print(clf.cluster_centers_)
+print(clf.labels_)
+plt.scatter(X[:,0],X[:,1],c=clf.labels_)
+plt.show()
+
+
+
+
+
+
+
+

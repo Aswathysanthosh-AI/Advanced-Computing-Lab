@@ -1,0 +1,21 @@
+#1. Dataset(pandas)
+import pandas as pd
+wine_quality=pd.read_csv("/content/winequality_red.csv")
+x=wine_quality[["fixed acidity","citric acid"]]
+
+#2. Load KMeans
+from sklearn.cluster import KMeans
+ML=KMeans (n_clusters=3 , max_iter=3)
+ML=ML.fit(x)
+
+#3. Centers and labels
+centers=ML.cluster_centers_
+labels=ML.labels_
+print(centers)
+print(labels)
+
+#4. Graph Plotting
+import matplotlib.pyplot as plt
+xaxis=wine_quality["fixed acidity"]
+yaxis=wine_quality["citric acid"]
+plt.scatter(x=xaxis,y=yaxis,c=labels,cmap="rainbow")
