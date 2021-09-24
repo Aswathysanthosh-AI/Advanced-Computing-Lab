@@ -1,0 +1,82 @@
+
+#1. Load files
+import tensorflow
+from tensorflow import keras
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input
+from tensorflow.keras.layers import Layer, Dense, Activation
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+#2. Load the data
+(xtrain,_),(xtest,_) = mnist.load_data()
+print("Size of Xtrain:",xtrain.shape)
+print("Size of Xtest:",xtest.shape)
+
+#3. Convert to 1 channel
+xtrain = xtrain.reshape(xtrain.shape[0], 28, 28, 1)
+xtest = xtest.reshape(xtest.shape[0], 28, 28, 1)
+
+#4. Normalize and print data
+xtrain = xtrain.astype("float32")/255.
+xtest = xtest.astype("float32")/255.
+print('xtrain shape:', xtrain.shape)
+print(xtrain.shape[0], 'train samples')
+print(xtest.shape[0], 'test samples')
+
+#5. Flatten the layers for the fully connected networks
+xtrain = xtrain.reshape((len(xtrain), np.prod(xtrain.shape[1:])))
+xtest = xtest.reshape((len(xtest), np.prod(xtest.shape[1:])))
+
+#6. Built multi layer autoencoder
+input_size = 784
+hidden_size = 128
+code_size = 64
+x = Input(shape=(input_size,))
+hidden_1 = Dense(hidden_size, activation='relu')(x)
+h = Dense(code_size, activation='relu')(hidden_1)
+hidden_2 = Dense(hidden_size, activation='relu')(h)
+o = Dense(input_size, activation='sigmoid')(hidden_2)
+AE = Model(inputs=x, outputs=o)
+AE.compile(optimizer='adam', loss='mse')
+
+#7. Training
+epochs = 6
+batch_size = 150
+history = AE.fit(xtrain, xtrain, batch_size=batch_size, epochs=epochs, verbose=1, validation_data=(xtest, xtest))
+
+#8. Testing
+decoded_images = AE.predict(xtest)
+
+#9. Plot
+n = 10
+plt.figure(figsize=(20, 6))
+for i in range(n):
+    #a. Display original image
+    ax = plt.subplot(3, n, i+1)
+    plt.title('Original Image')
+    plt.imshow(xtest[i].reshape(28, 28))
+    plt.gray()
+    ax.get_xaxis().set_visible(False)
+    ax.get_yaxis().set_visible(False)
+    #b. Display reconstructed image
+    ax = plt.subplot(3, n, i+n+1)
+    plt.title('Reconstructed Image')
+    plt.imshow(decoded_images[i].reshape(28, 28))
+    plt.gray()
+    ax.get_xaxis().set_visible(False)
+    ax.get_yaxis().set_visible(False)
+    
+plt.show()
+
+#10. Plot losses
+print(history.history.keys())
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('Model Loss v/s Iterations')
+plt.ylabel('Model Loss')
+plt.xlabel('Iterations')
+plt.legend(['train', 'validation'], loc='upper right')
+plt.show()

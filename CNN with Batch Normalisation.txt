@@ -1,0 +1,54 @@
+#CNN ON MNIST
+#1.a. Load and process MNIST
+from tensorflow import keras
+x=keras.datasets.mnist
+(xtrain,ytrain),(xtest,ytest)=x.load_data()
+print("xtrain size:",xtrain.shape)
+print("ytrain size:",ytrain.shape)
+print("xtest size:",xtest.shape)
+print("ytest size:",ytest.shape)
+import matplotlib.pyplot as plt
+plt.imshow(xtrain[10000],cmap='binary')
+
+#b.Conversion to 1 channel
+xtrain=xtrain.reshape((60000,28,28,1))
+xtest=xtest.reshape((10000,28,28,1))
+print("New xtrain size:",xtrain.shape)
+print("New xtest size:",xtest.shape)
+
+#c.Normalisation
+xtrain= xtrain.astype('float32')/255
+xtest= xtest.astype('float32')/255
+
+#2. Create CNN layer
+cnn= keras.models.Sequential()
+cnn.add(keras.layers.Conv2D(32,(3,3),activation="relu",
+                            input_shape=xtrain.shape[1:]))
+cnn.add(keras.layers.Conv2D(64,(3,3),activation="relu"))
+cnn.add(keras.layers.BatchNormalization())
+cnn.add(keras.layers.MaxPool2D(2,2))
+cnn.add(keras.layers.Dropout(0.25))
+cnn.add(keras.layers.Flatten())
+cnn.add(keras.layers.Dense(128,activation="relu"))
+cnn.add(keras.layers.Dropout(0.25))
+cnn.add(keras.layers.Dense(10,activation="softmax"))
+cnn.summary()
+
+#3. Compile and Test
+cnn.compile(loss="sparse_categorical_crossentropy",optimizer="adam",metrics="accuracy")
+es=keras.callbacks.EarlyStopping(monitor='loss',patience=10,restore_best_weights=True)
+cp=keras.callbacks.ModelCheckpoint("/content/mycnn.h5",monitor='val_loss')
+cnn.fit(xtrain,ytrain,epochs=2,batch_size=16,callbacks=[es,cp])
+
+testloss,testaccuracy=cnn.evaluate(xtest,ytest)
+print(testloss)
+print( testaccuracy)
+
+
+
+
+
+
+
+
+
