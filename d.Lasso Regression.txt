@@ -1,0 +1,15 @@
+import numpy as np
+import pandas as pd
+#Load data
+from sklearn.datasets import make_regression
+data=make_regression(n_samples=10,n_features=4,n_targets=1,bias=15,noise=5,random_state=42)
+x=pd.DataFrame(data[0]).values
+y=pd.Series(data[1]).values
+#Build model
+from sklearn.linear_model import Lasso
+lasso= Lasso()
+#fit model
+lasso=lasso.fit(x,y)
+#prediction
+result=lasso.predict([[12,10,13,0.5]])
+print(result)

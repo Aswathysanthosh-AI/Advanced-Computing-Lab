@@ -1,0 +1,19 @@
+import numpy as np
+import pandas as pd
+#load data
+from sklearn.datasets import make_regression
+data=make_regression(n_samples=20,n_features=3,n_targets=1,bias=15,noise=5,random_state=42)
+x=pd.DataFrame(data[0])
+y=pd.Series(data[1])
+#Polynomial Regression
+from sklearn.preprocessing import PolynomialFeatures
+PL=PolynomialFeatures(degree=4)
+x_new=PL.fit_transform(x)
+#Build Model
+from sklearn.linear_model import LinearRegression
+lin=LinearRegression()
+#Fit model
+lin=lin.fit(x_new,y)
+#Prediction
+result=PL.fit_transform([[2,3,4]])
+lin.predict(result)

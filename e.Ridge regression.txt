@@ -1,0 +1,16 @@
+import numpy as np
+import pandas as pd
+#Load dataset
+from sklearn.datasets import make_regression
+data=make_regression(n_samples=20,n_features=3,n_targets=1,bias=15,noise=5,random_state=42)
+x=pd.DataFrame(data[0]).values
+y=pd.Series(data[1]).values
+#Build model
+from sklearn.linear_model import Ridge
+ridge=Ridge()
+#Fit the model
+ridge=ridge.fit(x,y)
+#Prediction
+result=ridge.predict([[4,2,50]])
+print(result)
+

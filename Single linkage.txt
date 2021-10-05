@@ -1,0 +1,5 @@
+import numpy as np
+from scipy.cluster import hierarchy
+ytdist=np.array([662,877,255,412,996,295,468,268,400,754,564,219,869,669,200])
+z=hierarchy.linkage(ytdist , 'single')
+dn=hierarchy.dendrogram(z)

@@ -1,0 +1,16 @@
+#Load data set
+from sklearn import datasets
+iris=datasets.load_iris()
+x=iris.data
+y=iris.target
+target_names=iris.target_names
+#LDA
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+lda=LinearDiscriminantAnalysis()
+ldanew=lda.fit(x,y).transform(x)
+print(ldanew)
+#Plot graph
+import matplotlib.pyplot as plt
+xaxis=ldanew[:,0]
+yaxis=ldanew[:,1]
+plt.scatter(x=xaxis,y=yaxis,cmap="rainbow")
